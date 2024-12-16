@@ -828,6 +828,3 @@
     public static final int ERROR_WATCH_NOT_FOUND_WATCH_ID = 1013;//没有发现表盘ID
     public static final int ERROR_WATCH_STOP_WATCH_UPDATE = 1014;//停止表盘升级
     public static final int ERROR_WATCH_IS_FAST = 1015;//升级过于频繁，请稍后再试
-
-## 12、混淆
-    -keep class com.legend.bluetooth.fitprolib.model.** { *;}
