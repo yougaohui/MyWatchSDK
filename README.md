@@ -1,6 +1,7 @@
 # MyWatchSDK
 
 ## 更新说明:
+
     V1.0.0
     a.首次提交
 
@@ -76,6 +77,7 @@
     }
 
 ## 3、接口管理类 SDKCmdManager
+
     /**
      * 连接设备
      *
@@ -740,11 +742,12 @@
         }
     }
 
-
 ## 4、连接
+
     SDKCmdManager.connectWatch(address);
 
 ## 5、关于本地通信指令解释 Profile,通过AckEvent中的getMsgWhat()获取，和 Profile.MsgWhat进行对比
+
         public static final int what10 = 10; // 解绑手环
         public static final int what11 = 11; // 接收历史数据中
         public static final int what12 = 12; // 接收历史数据完成
@@ -784,34 +787,46 @@
         public static final int what101 = 101; // OTA升级模块个数
 
 ## 6、关于蓝牙扫描注意事项
-### 
+
+###  
+
     Android12及以上需要动态申请Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_ADVERTISE权限
 
 ## 7、数据发送
+
 ### SDKCmdManager
+
     SDKCmdManager 封装了常用的指令发送接口，直接调用就可以。
 
 ## 8、数据接收
+
     WatchSDK.getSDK().setOnEventListener设置监听器监听，具体请参考初始化
 
 ## 9、语言设置
+
     使用LangEnm枚举
     lang对应国家的编码:
     简体中文：0x00 英文：0x01 繁体：0x02 阿拉伯语：x03 捷克语：0x04 德语:0x05  西班牙语:0x06  法语:0x07  日语:0x08  马来西亚语:0x09  荷兰语:0xA  波兰语:0xB  葡萄牙语:0xC  俄语:0xD  斯洛伐克语:0xE  泰语:0xF  土耳其语:0x10 越南语:0x11 意大利语:0x12 菲律宾语:0x13 印尼语:0x14
     乌克兰语:0x15 印度语:0x16 芬兰语:0x17 克罗地亚语:0x18 挪威语:0x19  丹麦语:0x1A 瑞典语:0x1B  韩语:0x1C 匈牙利语:0x1D 希腊语:0x1E 波斯语:0x1F 罗马尼亚语:0x20  缅甸语:0x21  孟加拉语：0x22
 
 ## 10、关于AckEvent说明
+
 ### （1）、解释
+
     发送任意给手环的合法指令，都会返回对应的AckEvent,用于确认指令是否达到设备或者确认设备是否处理成功这条指令。
     例如设置闹钟，发送成功闹钟参数，就会返回对应的ack
 
 ### （2）、getMsgWhat()
+
       返回当前ack类型,仅对部分ack进行封装，返回0表示未知类型，其他类型对应Profile.MsgWhat
+
 ### （3）、isCurrentAck（commandValue）（建议使用，比较灵活）
+
      解释:这个方法也可以判断当前ack属于哪条指令，需要传入发送的指令数据（commandValue发送给设备的原始数据），
      在sdk没有封装类型的时候可以用这个方法
 
 ## 11、表盘升级错误码
+
     public static final int ERROR_UPDATING = 1000;//正在更新
     public static final int ERROR_WAIT_TIMEOUT = 1001;//等待设备返回数据超时
     public static final int ERROR_RESEND_TIMEOUT = 1002;//重发等待设备返回数据超时
@@ -828,3 +843,7 @@
     public static final int ERROR_WATCH_NOT_FOUND_WATCH_ID = 1013;//没有发现表盘ID
     public static final int ERROR_WATCH_STOP_WATCH_UPDATE = 1014;//停止表盘升级
     public static final int ERROR_WATCH_IS_FAST = 1015;//升级过于频繁，请稍后再试
+
+## 12、[枚举解释](./doc/enm)
+## 13、[事件解释](./doc/event)
+## 13、[model解释](./doc/model)
