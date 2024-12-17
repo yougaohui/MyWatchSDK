@@ -58,7 +58,7 @@
             //SleepWarnEvent//睡眠提醒返回事件
             //SportDetailsEvent//历史步数返回事件
             //SportStandListEvent//站立列表返回事件
-            //SynHisDataEvent//同步历史数据状态事件;包含开始同步历史数据与停驶同步历史数据两种状态
+            //SynHisDataEvent//同步历史数据状态事件;包含开始同步历史数据与停止同步历史数据两种状态
             //TargetCalEvent//目标卡路里返回事件
             //TargetSportTimeEvent//目标运动时间返回事件
             //TargetStandEvent//目标站立时间返回事件
@@ -489,7 +489,7 @@
 
 
     /**
-     * 获取设置目标步数协议
+     * 设置目标步数协议
      *
      * @param targetStep
      * @return 发送指令的数据流
@@ -499,7 +499,7 @@
     }
 
     /**
-     * 获取设置目标运动时间
+     * 设置目标运动时间
      *
      * @param targetSPortTime 单位分钟
      * @return 发送指令的数据流
@@ -509,7 +509,7 @@
     }
 
     /**
-     * 获取设置目标站立时间
+     * 设置目标站立时间
      *
      * @param standHour 单位小时
      * @return 发送指令的数据流
@@ -538,13 +538,12 @@
      * @param distanceUnit 距离单位 1表示公里, 2表示英里
      * @return 发送指令的数据流
      */
-    //获取设置用户信息协议
     public static byte[] setUInfoValue(int gender, int age, int height, int weight, int distanceUnit) {
         return sendCustomOrder(SendData.getSetUinfoValue(gender, age, height, weight, distanceUnit), "设置用户个人信息");
     }
 
     /**
-     * 获取设置久坐提醒协议
+     * 设置久坐提醒协议
      *
      * @param isOpen      true 表示打开
      * @param sitDuration 久坐时间15 分钟为单位， 最长为 2 小时，久坐超过这个时间，则提醒。比如 sitDuration = 4,则久坐时长为15x4=60分钟
@@ -558,7 +557,7 @@
 
 
     /**
-     * 获取设置左右手佩戴协议
+     * 设置左右手佩戴协议
      *
      * @param HandState 左右手佩 1右手，0左手
      * @return 发送指令的数据流
@@ -615,7 +614,7 @@
     }
 
     /**
-     * 获删除联系人
+     * 删除联系人
      *
      * @param phoneNumber 电话号码
      * @return 发送指令的数据流
