@@ -846,3 +846,12 @@
 ## 12、[枚举解释](./doc/enm)
 ## 13、[事件解释](./doc/event)
 ## 13、[model解释](./doc/model)
+## 14、关于蓝牙扫描注意事项
+###  (1)、SDK没有开放给用户扫描蓝牙的接口，不建议用sdk扫描方法。
+###  (2)、推荐使用[nrf](https://github.com/NordicSemiconductor/Android-Scanner-Compat-Library)的扫描
+        implementation 'no.nordicsemi.android.support.v18:scanner:1.6.0'
+###  (3)、权限注意事项
+      Android 7 到Android11 需要打开定位并获取定位权限才能扫描到设备。
+      Android12及以上需要动态申请Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_ADVERTISE权限。
+###  (4)、项目demo有扫描的示例代码;[ScanActivity](./demo/app/src/main/java/com/legend/mywatch/sdk/android/scan/ScanActivity.java)
+     
