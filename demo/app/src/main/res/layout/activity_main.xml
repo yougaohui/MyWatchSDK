@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btn_connect"
+        android:text="连接设备"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickScan"/>
+
+    <!--查找设备Button-->
+    <Button
+        android:id="@+id/btn_find"
+        android:text="查找设备"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickFind"/>
+
+    <!--开始测量心率Button-->
+    <Button
+        android:id="@+id/btn_test_heart"
+        android:text="开始测量心率"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickTestHeart"/>
+
+    <!--停止测量心率Button-->
+    <Button
+        android:text="开始测量心率"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickStopTestHeart"/>
+
+</LinearLayout>
