@@ -1,5 +1,24 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-id 'com.android.application' version '8.2.2' apply false
+    id 'com.android.application' version '8.2.2' apply false
     id 'org.jetbrains.kotlin.android' version '1.9.0' apply false
+    id 'maven-publish'
+}
+
+
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId = 'com.github.yougaohui'
+            artifactId = 'mywatchlib'  // 确保使用小写字母
+            version = '1.0.0'  // 确保每次发布时版本号唯一
+            artifact(file('../SDK/mywatch_V1.0.0_release_20241216.aar'))  // 确保路径正确
+        }
+    }
+    repositories {
+        maven {
+            name = 'JitPack'
+            url = uri('https://jitpack.io')
+        }
+    }
 }
