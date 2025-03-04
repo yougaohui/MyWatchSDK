@@ -859,4 +859,4 @@
       Android 7 到Android11 需要打开定位并获取定位权限才能扫描到设备。
       Android12及以上需要动态申请Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_ADVERTISE权限。
 ###  (4)、项目demo有扫描的示例代码;[ScanActivity](./demo/app/src/main/java/com/legend/mywatch/sdk/android/scan/ScanActivity.java)
-     
+## 15、[多运动不同运动模式解释](./doc/constant/SportsConstant.java)
