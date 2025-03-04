@@ -7,8 +7,13 @@
 
 ## 1、集成
 
-### （1）myWatch-release.aar放入lib目录下,并在应用build.gradle下引入.
-
+### （1）方法一本地依赖
+        myWatch-release.aar放入lib目录下,并在应用build.gradle下引入.
+### （2）方法二远程依赖
+#### a、app下的build.gradle添加
+       implementation 'com.github.yougaohui:MyWatchSDK:1.0.0'
+#### b、项目下面的build.gradle添加
+       repositories {maven { url 'https://jitpack.io' }}
 ## 2、在Application初始化
 
     public class App extends Application {
