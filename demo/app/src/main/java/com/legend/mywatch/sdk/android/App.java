@@ -3,6 +3,8 @@ package com.legend.mywatch.sdk.android;
 import android.app.Application;
 import android.util.Log;
 
+import com.blankj.utilcode.util.Utils;
+import com.legend.mywatch.sdk.android.event.LogEvent;
 import com.legend.mywatch.sdk.android.utils.EventBusUtils;
 import com.legend.mywatch.sdk.mywatchsdklib.android.sdk.Config;
 import com.legend.mywatch.sdk.mywatchsdklib.android.sdk.WatchSDK;
@@ -15,8 +17,10 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Utils.init(this);
         WatchSDK.getSDK().setConfig(new Config().setLogListener((tag, log) -> {//sdk日志回调
                             Log.i(tag, log);
+                            EventBusUtils.post(new LogEvent(log));
                         }).setReconnect(true)//是否重连，默认允许sdk回连
                         .setReconnectCheckInterval(30)//回连间隔,默认30s
         ).setOnEventListener(event -> {//设备返回数据事件回调
@@ -73,6 +77,8 @@ public class App extends Application {
             //WatchSportsDataEvent//多运动数据返回
             //WatchSwitchEvent//表盘切换事件
             //WatchThemeConfigEvent//表盘信息配置
+            //TempCheckHistoryEvent 历史温度检测返回
+            //TempCheckRealEvent 实时温度检测返回
             EventBusUtils.post(event);
         }).init(this);
     }

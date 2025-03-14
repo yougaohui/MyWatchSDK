@@ -9,16 +9,22 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.GsonUtils;
 import com.legend.mywatch.sdk.android.base.adapter.BaseActivity;
+import com.legend.mywatch.sdk.android.event.LogEvent;
 import com.legend.mywatch.sdk.android.scan.ScanActivity;
 import com.legend.mywatch.sdk.mywatchsdklib.android.constant.PermissionConstants;
 import com.legend.mywatch.sdk.mywatchsdklib.android.event.AckEvent;
 import com.legend.mywatch.sdk.mywatchsdklib.android.event.ConnectStatusEvent;
+import com.legend.mywatch.sdk.mywatchsdklib.android.event.TempCheckHistoryEvent;
+import com.legend.mywatch.sdk.mywatchsdklib.android.event.TempCheckRealEvent;
 import com.legend.mywatch.sdk.mywatchsdklib.android.sdk.SDKCmdManager;
 import com.legend.mywatch.sdk.mywatchsdklib.android.utils.ActivityUtils;
 import com.legend.mywatch.sdk.mywatchsdklib.android.utils.BleUtils;
+import com.legend.mywatch.sdk.mywatchsdklib.android.utils.LogUtils;
 import com.legend.mywatch.sdk.mywatchsdklib.android.utils.PermissionUtils;
 
 @SuppressLint("MissingInflatedId")
@@ -26,12 +32,14 @@ public class MainActivity extends BaseActivity {
 
     private Button btnConnect;
     private byte[] mCurValue;
+    private EditText edtLog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnConnect = findViewById(R.id.btn_connect);
+        edtLog = findViewById(R.id.edt_log);
         refresh();
     }
 
@@ -109,6 +117,18 @@ public class MainActivity extends BaseActivity {
             AckEvent events = (AckEvent) event;
             boolean isCurAck = events.isCurrentAck(mCurValue);
             MyToast("isCurAck:" + isCurAck + ";操作结果:" + ((AckEvent) event).isSuccess());
+        } else if (event instanceof TempCheckHistoryEvent) {
+            MyToast(GsonUtils.toJson(event));
+            //log
+        } else if (event instanceof TempCheckRealEvent) {
+            MyToast(GsonUtils.toJson(event));
+            //log
+
+        } else if (event instanceof LogEvent) {
+            String log = ((LogEvent) event).getLog();
+            if (log.contains("收到数据包")) {
+                edtLog.setText(log);
+            }
         }
     }
 
@@ -126,6 +146,7 @@ public class MainActivity extends BaseActivity {
 
     private void MyToast(String text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+        LogUtils.i(TAG,"MyToast==============>>"+text);
     }
 
     public void onClickTestHeart(View view) {
@@ -142,5 +163,31 @@ public class MainActivity extends BaseActivity {
             return;
         }
         mCurValue = SDKCmdManager.testHeartRate(false);
+    }
+
+    public void onClickGetHistory(View view) {
+        if (!SDKCmdManager.isConnected()) {
+            MyToast("请先连接设备");
+            return;
+        }
+        mCurValue = SDKCmdManager.getTotalSportData();
+    }
+
+    //onClickDisconnect
+    public void onClickDisconnect(View view) {
+        if (!SDKCmdManager.isConnected()) {
+            MyToast("请先连接设备");
+            return;
+        }
+        SDKCmdManager.disconnectWatch();
+    }
+
+    //onClickUnbind
+    public void onClickUnbind(View view) {
+        if (!SDKCmdManager.isConnected()) {
+            MyToast("请先连接设备");
+            return;
+        }
+        SDKCmdManager.unbindWatch();
     }
 }

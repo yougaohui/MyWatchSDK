@@ -4,6 +4,10 @@
 
     V1.0.0
     a.首次提交
+    
+    V1.0.1
+    a.修复一些已知bug.
+    b.新增温度检测协议.
 
 ## 1、集成
 
@@ -78,6 +82,8 @@
             //WatchSportsDataEvent//多运动数据返回
             //WatchSwitchEvent//表盘切换事件
             //WatchThemeConfigEvent//表盘信息配置
+            //TempCheckHistoryEvent 历史温度检测返回
+            //TempCheckRealEvent 实时温度检测返回
         }).init(this);
     }
 

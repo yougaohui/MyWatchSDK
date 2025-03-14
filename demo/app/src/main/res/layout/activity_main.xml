@@ -7,34 +7,66 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <EditText
+        android:id="@+id/edt_log"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/white"
+        android:enabled="false"
+        android:textColor="@color/black" />
+
     <Button
         android:id="@+id/btn_connect"
-        android:text="连接设备"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onClickScan"/>
+        android:onClick="onClickScan"
+        android:text="连接设备" />
+
+    <!--断开连接-->
+    <Button
+        android:id="@+id/btn_disconnect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickDisconnect"
+        android:text="断开连接" />
+
+    <!--解绑设备-->
+    <Button
+        android:id="@+id/btn_unbind"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickUnbind"
+        android:text="解绑设备" />
 
     <!--查找设备Button-->
     <Button
         android:id="@+id/btn_find"
-        android:text="查找设备"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onClickFind"/>
+        android:onClick="onClickFind"
+        android:text="查找设备" />
 
     <!--开始测量心率Button-->
     <Button
         android:id="@+id/btn_test_heart"
-        android:text="开始测量心率"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onClickTestHeart"/>
+        android:onClick="onClickTestHeart"
+        android:text="开始测量心率" />
 
     <!--停止测量心率Button-->
     <Button
-        android:text="开始测量心率"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onClickStopTestHeart"/>
+        android:onClick="onClickStopTestHeart"
+        android:text="开始测量心率" />
+
+    <!--获取历史数据-->
+    <Button
+        android:id="@+id/btn_get_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickGetHistory"
+        android:text="获取历史数据" />
 
 </LinearLayout>

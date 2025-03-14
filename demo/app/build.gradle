@@ -66,5 +66,7 @@ dependencies {
     //事件分发框架
     implementation 'org.greenrobot:eventbus:3.1.1'
 
-    implementation 'com.github.yougaohui:MyWatchSDK:1.0.0'
+    implementation 'com.blankj:utilcodex:1.31.1'
+
+//    implementation 'com.github.yougaohui:MyWatchSDK:1.0.0'
 }

@@ -11,8 +11,8 @@ publishing {
         aar(MavenPublication) {
             groupId = 'com.github.yougaohui'
             artifactId = 'mywatchlib'  // 确保使用小写字母
-            version = '1.0.0'  // 确保每次发布时版本号唯一
-            artifact(file('../SDK/mywatch_V1.0.0_release_20241216.aar'))  // 确保路径正确
+            version = '1.0.1'  // 确保每次发布时版本号唯一
+            artifact(file('../SDK/mywatch_V1.0.1_release_20250314.aar'))  // 确保路径正确
         }
     }
     repositories {

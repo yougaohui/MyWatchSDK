@@ -8,6 +8,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 public abstract class BaseActivity extends AppCompatActivity {
+    //TAG
+    public static final String TAG = BaseActivity.class.getSimpleName();
 
     @Override
     protected void onResume() {

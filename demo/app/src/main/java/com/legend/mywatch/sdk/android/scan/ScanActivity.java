@@ -2,6 +2,7 @@ package com.legend.mywatch.sdk.android.scan;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,7 @@ public class ScanActivity extends BaseActivity {
 
     private RecyclerView list;
     private ScanAdapter adapter;
+    private View tvConnect;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -36,12 +38,15 @@ public class ScanActivity extends BaseActivity {
         setContentView(R.layout.activity_scan);
         WatchSDK.getSDK().getConfig().setReconnect(false);//禁止回连
         list = findViewById(R.id.list);
+        tvConnect = findViewById(R.id.tv_connect);
         SwipeRefreshLayout refresh = findViewById(R.id.swipe_refresh);
         adapter = new ScanAdapter(new ArrayList<>());
         list.setAdapter(adapter);
         list.setLayoutManager(new LinearLayoutManager(this));
         adapter.setOnItemClickListener((DefaultAdapter.OnRecyclerViewItemClickListener<ScanResult>) (view, viewType, data, position) -> {
+            stopScan();
             SDKCmdManager.connectWatch(data.getDevice().getAddress());
+            tvConnect.setVisibility(View.VISIBLE);
         });
         refresh.setOnRefreshListener(() -> {
             adapter.getInfos().clear();
@@ -49,6 +54,7 @@ public class ScanActivity extends BaseActivity {
             startScan();
             refresh.setRefreshing(false);
         });
+        startScan();
     }
 
 
@@ -138,12 +144,11 @@ public class ScanActivity extends BaseActivity {
         super.onMessageEvent(event);
         if (event instanceof ConnectStatusEvent) {
             ConnectStatusEvent statusEvent = (ConnectStatusEvent) event;
-            if (statusEvent.getStatus() == ConnectStatusEvent.STATUS_CONNECTED) {
-                stopScan();
-                finish();
-            } else {
+            if (statusEvent.getStatus() != ConnectStatusEvent.STATUS_CONNECTED) {
                 Toast.makeText(this, "连接失败:" + statusEvent.getStatus(), Toast.LENGTH_SHORT).show();
             }
+            stopScan();
+            finish();
         }
     }
 
