@@ -9,13 +9,15 @@
     a.修复一些已知bug.
     b.新增温度检测协议.
 
+    V: 1.0.3
+    a.修复一些已知bug.
 ## 1、集成
 
 ### （1）方法一本地依赖
         myWatch-release.aar放入lib目录下,并在应用build.gradle下引入. 
 ### （2）方法二远程依赖
 #### a、app下的build.gradle添加
-       implementation 'com.github.yougaohui:MyWatchSDK:1.0.1'
+       implementation 'com.github.yougaohui:MyWatchSDK:1.0.3'
 #### b、项目下面的build.gradle添加
        repositories {maven { url 'https://jitpack.io' }}
 ## 2、在Application初始化
