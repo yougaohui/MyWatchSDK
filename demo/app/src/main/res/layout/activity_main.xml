@@ -15,6 +15,14 @@
         android:enabled="false"
         android:textColor="@color/black" />
 
+    <!--导出log-->
+    <Button
+        android:id="@+id/btn_export_log"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickExportLog"
+        android:text="导出log" />
+
     <Button
         android:id="@+id/btn_connect"
         android:layout_width="match_parent"
@@ -68,5 +76,27 @@
         android:layout_height="wrap_content"
         android:onClick="onClickGetHistory"
         android:text="获取历史数据" />
+
+    <!--LogActivity Button-->
+    <Button
+        android:id="@+id/btn_log"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickLog"
+        android:text="原始数据调试" />
+
+    <View
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"/>
+
+    <!--软件版本号-->
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:text="软件版本号" />
 
 </LinearLayout>

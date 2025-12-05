@@ -10,22 +10,36 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.blankj.utilcode.util.GsonUtils;
 import com.legend.mywatch.sdk.android.base.adapter.BaseActivity;
 import com.legend.mywatch.sdk.android.event.LogEvent;
 import com.legend.mywatch.sdk.android.scan.ScanActivity;
+import com.legend.mywatch.sdk.android.utils.SaveLog2LocalUtils;
+import com.legend.mywatch.sdk.android.utils.ShareUtils;
+import com.legend.mywatch.sdk.mywatchsdklib.android.BuildConfig;
 import com.legend.mywatch.sdk.mywatchsdklib.android.constant.PermissionConstants;
 import com.legend.mywatch.sdk.mywatchsdklib.android.event.AckEvent;
 import com.legend.mywatch.sdk.mywatchsdklib.android.event.ConnectStatusEvent;
 import com.legend.mywatch.sdk.mywatchsdklib.android.event.TempCheckHistoryEvent;
 import com.legend.mywatch.sdk.mywatchsdklib.android.event.TempCheckRealEvent;
+import com.legend.mywatch.sdk.mywatchsdklib.android.event.TempCheckTestEvent;
+import com.legend.mywatch.sdk.mywatchsdklib.android.model.TempCheckModel;
+import com.legend.mywatch.sdk.mywatchsdklib.android.model.TempCheckTestModel;
 import com.legend.mywatch.sdk.mywatchsdklib.android.sdk.SDKCmdManager;
 import com.legend.mywatch.sdk.mywatchsdklib.android.utils.ActivityUtils;
 import com.legend.mywatch.sdk.mywatchsdklib.android.utils.BleUtils;
+import com.legend.mywatch.sdk.mywatchsdklib.android.utils.CollectionUtils;
+import com.legend.mywatch.sdk.mywatchsdklib.android.utils.FileUtils;
 import com.legend.mywatch.sdk.mywatchsdklib.android.utils.LogUtils;
 import com.legend.mywatch.sdk.mywatchsdklib.android.utils.PermissionUtils;
+
+import java.io.File;
+import java.util.List;
 
 @SuppressLint("MissingInflatedId")
 public class MainActivity extends BaseActivity {
@@ -40,6 +54,8 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         btnConnect = findViewById(R.id.btn_connect);
         edtLog = findViewById(R.id.edt_log);
+        //tv_version
+        ((TextView) findViewById(R.id.tv_version)).setText("版本:" + BuildConfig.VERSION_NAME);
         refresh();
     }
 
@@ -118,18 +134,57 @@ public class MainActivity extends BaseActivity {
             boolean isCurAck = events.isCurrentAck(mCurValue);
             MyToast("isCurAck:" + isCurAck + ";操作结果:" + ((AckEvent) event).isSuccess());
         } else if (event instanceof TempCheckHistoryEvent) {
-            MyToast(GsonUtils.toJson(event));
-            //log
+            TempCheckHistoryEvent historyEvent = (TempCheckHistoryEvent) event;
+            List<TempCheckModel> list = historyEvent.getTempCheck();
+            StringBuilder sb = new StringBuilder("温度检测历史数据:\n");
+            for (TempCheckModel model : list) {
+                sb.append("时间戳: ").append(model.getTimestamp()).append("分钟\n");
+                sb.append("温度: ").append(model.getTemperature()).append("℃\n");
+                sb.append("开机次数: ").append(model.getPowerOnCount()).append("\n");
+                sb.append("心率PPI: ").append(model.getHeartRatePPI()).append("\n");
+                sb.append("风险状态: ").append(model.getRiskStatusText()).append("\n");
+                byte[] extraData = model.getExtraData();
+                sb.append("额外数据: ").append(extraData != null ? extraData.length + "字节" : "无").append("\n");
+                sb.append("---\n");
+            }
+            showTempCheckDialog("温度检测历史数据", sb.toString());
         } else if (event instanceof TempCheckRealEvent) {
+            TempCheckRealEvent realEvent = (TempCheckRealEvent) event;
+            TempCheckModel model = realEvent.getTempCheck();
+            StringBuilder sb = new StringBuilder();
+            sb.append("时间戳: ").append(model.getTimestamp()).append("分钟\n");
+            sb.append("温度: ").append(model.getTemperature()).append("℃\n");
+            sb.append("开机次数: ").append(model.getPowerOnCount()).append("\n");
+            sb.append("心率PPI: ").append(model.getHeartRatePPI()).append("\n");
+            sb.append("风险状态: ").append(model.getRiskStatusText()).append("\n");
+            byte[] extraData = model.getExtraData();
+            sb.append("额外数据: ").append(extraData != null ? extraData.length + "字节" : "无").append("\n");
+            showTempCheckDialog("实时温度检测", sb.toString());
+        } else if (event instanceof TempCheckTestEvent) {
             MyToast(GsonUtils.toJson(event));
-            //log
-
+            //event
+            TempCheckTestEvent aa = (TempCheckTestEvent) event;
+            List<TempCheckTestModel> list = aa.getTempCheck();
+            for (TempCheckTestModel tempCheckTestModel : list) {
+                int time = tempCheckTestModel.getTimestamp();//Timestamp, in minutes
+                int ppg = tempCheckTestModel.getPpg();//ppg
+            }
         } else if (event instanceof LogEvent) {
             String log = ((LogEvent) event).getLog();
             if (log.contains("收到数据包")) {
                 edtLog.setText(log);
+                SaveLog2LocalUtils.saveLog(log);
             }
         }
+    }
+
+    private void showTempCheckDialog(String title, String content) {
+        new AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(content)
+            .setPositiveButton("确定", null)
+            .setCancelable(true)
+            .show();
     }
 
     private void refresh() {
@@ -146,7 +201,7 @@ public class MainActivity extends BaseActivity {
 
     private void MyToast(String text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-        LogUtils.i(TAG,"MyToast==============>>"+text);
+        LogUtils.i(TAG, "MyToast==============>>" + text);
     }
 
     public void onClickTestHeart(View view) {
@@ -189,5 +244,20 @@ public class MainActivity extends BaseActivity {
             return;
         }
         SDKCmdManager.unbindWatch();
+    }
+
+    //onClickLog
+    public void onClickLog(View view) {
+        ActivityUtils.startActivity(LogActivity.class);
+    }
+
+    public void onClickExportLog(View view) {
+        String logPath = SaveLog2LocalUtils.getDefaultPath();
+        List<File> fileList = FileUtils.listFilesInDir(logPath);
+        if (!CollectionUtils.isEmpty(fileList)) {
+            ShareUtils.shareFiles(fileList);
+        } else {
+            MyToast("日志文件不存在");
+        }
     }
 }
