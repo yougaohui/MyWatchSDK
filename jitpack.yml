@@ -1,0 +1,7 @@
+jdk:
+  - openjdk11
+before_install:
+  - cd demo
+install:
+  - ./gradlew publishToMavenLocal
+
