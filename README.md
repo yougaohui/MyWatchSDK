@@ -13,7 +13,10 @@
     a.修复一些已知bug.
     
     V: 1.0.4
-    a.修复一些已知bug.
+    a.新增温度检测协议字段（心率PPI、风险状态、扩展数据）
+    b.修复心率PPI字节序问题（大端→小端）
+    c.支持动态协议长度，完全向后兼容
+    📖 [详细更新文档](docs/SDK_UPDATE_SUMMARY.md) | [技术文档](docs/SDK_UPDATE_DOCUMENTATION.md)
 ## 1、集成
 
 ### （1）方法一本地依赖
