@@ -17,7 +17,9 @@
     b.修复心率PPI字节序问题（大端→小端）
     c.支持动态协议长度，完全向后兼容
 
-📖 **详细文档**: [更新摘要](docs/SDK_UPDATE_SUMMARY.md) | [技术文档](docs/SDK_UPDATE_DOCUMENTATION.md)
+📖 **更新摘要**: [中文](docs/zh/SDK_UPDATE_SUMMARY.md) | [English](docs/en/SDK_UPDATE_SUMMARY.md) | [日本語](docs/ja/SDK_UPDATE_SUMMARY.md)
+
+📄 **技术文档**: [中文](docs/zh/SDK_UPDATE_DOCUMENTATION.md) | [English](docs/en/SDK_UPDATE_DOCUMENTATION.md) | [日本語](docs/ja/SDK_UPDATE_DOCUMENTATION.md)
 ## 1、集成
 
 ### （1）方法一本地依赖
