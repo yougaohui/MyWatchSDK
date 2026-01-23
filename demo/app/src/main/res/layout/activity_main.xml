@@ -67,7 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClickStopTestHeart"
-        android:text="开始测量心率" />
+        android:text="停止测量心率" />
 
     <!--获取历史数据-->
     <Button
